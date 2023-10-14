@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Desafío Frontend: Tabla de Usuarios con Filtros
 
-## Getting Started
+Descripción:
 
-First, run the development server:
+El objetivo de este desafío es crear una aplicación web utilizando React y Typescript que muestre una tabla de usuarios y permita a los usuarios filtrar la lista por rol y pais. Los datos de los usuarios se proporcionan de la siguiente API:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+https://randomuser.me/api
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Requisitos:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Debe mostrar una tabla que muestre la información de cada usuario, incluyendo nombre, avatar, correo electrónico, equipo, y fecha de contratación.
 
-## Learn More
+Debe proporcionar filtros para el equipo y el país.
 
-To learn more about Next.js, take a look at the following resources:
+Los filtros deben ser dinámicos y actualizarse en tiempo real a medida que los usuarios los modifican.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Debe implementarse un diseño responsive para que la tabla sea adecuada tanto para dispositivos de escritorio como para dispositivos móviles.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Añade cualquier característica adicional que consideres valiosa para mejorar la experiencia del usuario.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Inspiracion UI
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[UI](https://dribbble.com/shots/22646477-Team-management-settings-Untitled-UI)
