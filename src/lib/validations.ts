@@ -10,7 +10,7 @@ export const userSchema = z.object({
     thumbnail: z.string().url(),
   }),
   registered: z.object({
-    date: z.string(),
+    date: z.string().datetime(),
   }),
   login: z.object({
     uuid: z.string().uuid(),
@@ -25,7 +25,6 @@ export type User = z.infer<typeof userSchema>
 
 export const extendedUserSchema = userSchema.merge(
   z.object({
-    fullName: z.string(),
     team: z.string(),
     location: z.object({
       ...userSchema.shape.location.shape,

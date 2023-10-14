@@ -1,18 +1,16 @@
 'use client'
 import Image from 'next/image'
 
-import { ExtendedUser, User } from '@/lib/validations'
+import { ExtendedUser } from '@/lib/validations'
 import { Filter } from './filters'
 import { useUserFilters } from '../hooks/useUserFilters'
 import { FilterSVG } from './ui/icons'
-import { ExtendUser } from '@/datasource/users'
-import { ComponentType } from 'react'
 
 type Props = {
   users: ExtendedUser[]
 }
 
-function DataDisplay({ users }: Props) {
+export function DataDisplay({ users }: Props) {
   const { filteredUsers, filters, filterChildren, existFilterApplied, resetFilters, updateFilter } = useUserFilters(users)
 
   return (
@@ -52,20 +50,23 @@ function DataDisplay({ users }: Props) {
         <table className='w-full'>
           <tbody>
             <tr className='sticky top-0 bg-black'>
-              {['Name', 'Email', 'Hiring Date', 'Country', 'Phone', 'Team'].map((tableData) => (
-                <td key={tableData} className='p-3 text-gray-300 border-b-[0.1px] border-soft_gray'>
-                  {tableData}
-                </td>
-              ))}
+              <td className='p-3 text-gray-300 border-b-[0.1px] border-soft_gray'>Name</td>
+              <td className='p-3 text-gray-300 border-b-[0.1px] border-soft_gray'>Email</td>
+              <td className='p-3 text-gray-300 border-b-[0.1px] border-soft_gray'>Hiring date</td>
+              <td className='p-3 text-gray-300 border-b-[0.1px] border-soft_gray'>Country</td>
+              <td className='p-3 text-gray-300 border-b-[0.1px] border-soft_gray'>Phone</td>
+              <td className='p-3 text-gray-300 border-b-[0.1px] border-soft_gray'>Team</td>
             </tr>
-            {filteredUsers.map(({ login, fullName, picture, email, phone, location, registered, team }) => (
+            {filteredUsers.map(({ login, name, picture, email, phone, location, registered, team }) => (
               <tr key={login.uuid}>
                 <td className='border-t border-soft_gray p-4 flex gap-2 items-center'>
-                  <Image src={picture.thumbnail} alt={fullName} width={20} height={20} className='rounded-full' />
-                  {fullName} {fullName}
+                  <Image src={picture.thumbnail} alt={name.first} width={20} height={20} className='rounded-full' />
+                  {name.first} {name.last}
                 </td>
                 <td className='border-t border-soft_gray p-4'>{email}</td>
-                <td className='border-t border-soft_gray p-4 truncate'>{registered.date}</td>
+                <td className='border-t border-soft_gray p-4'>
+                  {Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(registered.date))}
+                </td>
                 <td className='border-t border-soft_gray p-4 gap-2'>
                   <div className='flex gap-2 items-center'>
                     {location.flag && <Image src={location.flag} alt='country flag' height={20} width={20} className='w-6 h-auto' />}
@@ -91,13 +92,3 @@ function DataDisplay({ users }: Props) {
     </>
   )
 }
-
-function withExtendedUsers<TProps>(Component: ComponentType<TProps>) {
-  const WrappedComponent = (props: TProps & { users: User[] }) => {
-    const parsedUsers = props.users.map((user) => new ExtendUser(user))
-    return <Component {...props} users={parsedUsers} />
-  }
-  return WrappedComponent
-}
-
-export default withExtendedUsers<any>(DataDisplay)

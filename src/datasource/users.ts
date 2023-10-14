@@ -10,55 +10,43 @@ export class Users implements User {
   login: User['login']
   location: User['location']
   phone: User['phone']
-  constructor(user: User) {
-    const result = userSchema.safeParse(user)
+  constructor(data: User) {
+    const result = userSchema.safeParse(data)
 
     if (result.success) {
-      this.email = user.email
-      this.name = user.name
-      this.picture = user.picture
-      this.registered = user.registered
-      this.login = user.login
-      this.location = user.location
-      this.phone = user.phone
+      this.email = data.email
+      this.name = data.name
+      this.picture = data.picture
+      this.registered = data.registered
+      this.login = data.login
+      this.location = data.location
+      this.phone = data.phone
     } else {
       console.error('User schema validation error:', result.error)
-      throw new Error('User schema validation error')
+      throw new Error('Schema Validation error:')
     }
   }
 }
 
 export class ExtendUser extends Users implements ExtendedUser {
   team: ExtendedUser['team']
-  location!: ExtendedUser['location']
-  fullName: ExtendedUser['fullName']
-  constructor(user: User) {
-    super(user)
+  location: ExtendedUser['location']
+  constructor(data: User) {
+    super(data)
 
-    this.team = 'Design'
-    this.getUserFlags(user.location).then((location) => {
-      console.log(location)
+    this.team = this.getUserTeam()
+    this.getUserFlags(data.location).then((location) => {
       this.location = location
     })
-    this.fullName = this.buildFullName()
-    this.registered.date = this.sanitizeHiringDate()
   }
 
-  private getRandomTeam(): string {
+  private getUserTeam(): string {
     const randomNumber = Math.floor(Math.random() * TEAMS.length)
     return TEAMS[randomNumber]
   }
 
-  private async getUserFlags(userLocation: User['location']): Promise<ExtendUser['location']> {
+  private async getUserFlags(userLocation: User['location']) {
     const getFlagCountry = await getCountryFlagByName(userLocation.country)
     return { ...userLocation, flag: getFlagCountry.flag, altFlag: getFlagCountry.alt }
-  }
-
-  private buildFullName(): string {
-    return `${this.name.first} ${this.name.last}`
-  }
-
-  private sanitizeHiringDate(): string {
-    return Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(this.registered.date))
   }
 }
